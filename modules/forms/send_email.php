@@ -185,6 +185,16 @@ function sendFormSubmittedEmail(array $application, array $travellers, array $at
     $country = $application['country'] ?? 'Canada';
     // Display ke liye minimum 1 traveller count rakho.
     $totalPax = max(1, count($travellers));
+    $accessToken = $application['access_token'] ?? null;
+
+    // Build a secure, token-based URL if a token is provided.
+    // This is better than a generic link.
+    $ctaUrl = rtrim(APP_URL, '/');
+    if ($accessToken) {
+        $ctaUrl .= '/form-access.php?token=' . urlencode($accessToken);
+    } else {
+        $ctaUrl .= '/form.php?country=' . urlencode($country);
+    }
 
     $safeName = $toName !== '' ? $toName : 'Applicant';
     $subject = "Application Received | " . $country . " | Ref " . $reference;
@@ -206,7 +216,7 @@ function sendFormSubmittedEmail(array $application, array $travellers, array $at
         ],
         '#0f62fe',
         'Open Application Portal',
-        rtrim(APP_URL, '/') . '/form.php?country=' . urlencode($country),
+        $ctaUrl,
         'Your submitted form PDF is attached for your records.'
     );
 
@@ -225,7 +235,7 @@ function sendFormSubmittedEmail(array $application, array $travellers, array $at
  * @param array<int, array{path:string,name?:string}> $attachments
  * @return array{0:bool,1:?string}
  */
-function sendPaymentConfirmationEmail(array $application, string $paymentId, int $amountPaise, string $currency = 'USD', array $attachments = []): array {
+function sendPaymentConfirmationEmail(array $application, string $paymentId, int $amountPaise, string $currency = APP_CURRENCY, array $attachments = []): array {
     $reference = $application['reference'] ?? '';
     $plan = ucfirst($application['processing_plan'] ?? 'Standard');
     $toEmail = $application['primary_email'] ?? '';

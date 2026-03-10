@@ -65,7 +65,7 @@ if ($plan === 'priority') {
     $totalAmountMinor = (int)($totalAmountMinor * 1.5);
 }
 
-$currency = 'USD';
+$currency = defined('APP_CURRENCY') ? APP_CURRENCY : 'USD';
 $totalAmountMajor = number_format($totalAmountMinor / 100, 2, '.', '');
 $orderId = 'MW-' . $applicationId . '-' . time() . '-' . bin2hex(random_bytes(3));
 

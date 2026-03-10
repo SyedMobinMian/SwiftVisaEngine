@@ -50,7 +50,7 @@ if (!$paymentRow) {
 }
 
 $amount = number_format((float)$paymentRow['amount'], 2, '.', '');
-$currency = strtoupper((string)($paymentRow['currency'] ?: 'USD'));
+$currency = strtoupper((string)($paymentRow['currency'] ?: (defined('APP_CURRENCY') ? APP_CURRENCY : 'USD')));
 $transactionProduct = 'eTA Application Fee';
 $customerName = trim((string)($paymentRow['billing_first_name'] . ' ' . $paymentRow['billing_last_name']));
 $customerEmail = (string)($paymentRow['billing_email'] ?? '');
