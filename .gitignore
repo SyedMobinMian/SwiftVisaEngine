@@ -1,0 +1,26 @@
+# Local environment secrets
+.env
+READ.md
+core/config.php
+
+
+# Runtime-generated files
+storage/receipts/*.pdf
+storage/forms/*.pdf
+modules/storage/forms/*.pdf
+
+# Dependencies (install via composer)
+vendor/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs/temp
+*.log
+tmp/
+temp/
+
+
